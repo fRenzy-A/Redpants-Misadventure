@@ -12,8 +12,6 @@ public class DialogueManager : MonoBehaviour
 
     private Queue<string> dialogue;
 
-    public int sentenceSeparator;
-
 
     void Start()
     {

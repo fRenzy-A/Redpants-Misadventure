@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement_2D : MonoBehaviour
-{   
+{
+    //public string[] inventory = new string[6];
+    public List<string> inventory = new();
+
     [Header("Input settings:")]
     public float speedMultiplier = 5.0f;
 

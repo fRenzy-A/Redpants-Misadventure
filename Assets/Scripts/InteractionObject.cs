@@ -19,6 +19,12 @@ public class InteractionObject : MonoBehaviour
     [Header("Type of Interactable")]
     public InteractableType interType;
 
+    [Header("What item")]
+    public string item;
+
+    [Header("Split dialogue")]
+    public int splitThisDialogue;
+
     [Header("Simple info Message")]
     public string infoMessage;
     private TMP_Text infoText;
@@ -26,9 +32,13 @@ public class InteractionObject : MonoBehaviour
     [Header("Dialogue Text")]
     [TextArea]
     public string[] sentences;
+    public string[] whenQuestIsDoneDialogue;
+
+    public PlayerMovement_2D playerScript;
     public void Start()
     {
         infoText = GameObject.Find("InfoText").GetComponent<TMP_Text>();
+        playerScript = GameObject.Find("Player").GetComponent<PlayerMovement_2D>();
     }
 
     public void Nothing()
@@ -43,13 +53,23 @@ public class InteractionObject : MonoBehaviour
 
     public void Pickup()
     {
+        playerScript.inventory.Add(item);
         Debug.Log("You picked up " + this.gameObject.name);
         this.gameObject.SetActive(false);
     }
 
     public void Dialogue()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(sentences);
+        if (playerScript.inventory.Contains(item))
+        {
+            FindObjectOfType<DialogueManager>().StartDialogue(whenQuestIsDoneDialogue);
+        }
+        else
+        {
+            FindObjectOfType<DialogueManager>().StartDialogue(sentences);
+        }
+       
+
     }
 
     IEnumerator ShowInfo(string message, float delay)
