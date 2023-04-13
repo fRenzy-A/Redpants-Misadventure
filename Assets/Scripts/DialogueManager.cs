@@ -10,7 +10,7 @@ public class DialogueManager : MonoBehaviour
     public GameObject player;
     public Animator animator;
 
-    private Queue<string> dialogue;
+    public Queue<string> dialogue;
 
 
     void Start()

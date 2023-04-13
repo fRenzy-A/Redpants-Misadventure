@@ -35,10 +35,14 @@ public class InteractionObject : MonoBehaviour
     public bool willIDisappear;
 
     public PlayerMovement_2D playerScript;
+    public DialogueManager dialogueManager;
+    public GameObject infoPanel;
     public void Start()
     {
         infoText = GameObject.Find("InfoText").GetComponent<TMP_Text>();
         playerScript = GameObject.Find("Player").GetComponent<PlayerMovement_2D>();
+        dialogueManager = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
+        infoPanel = GameObject.Find("Info Panel");
     }
 
     public void Nothing()
@@ -49,12 +53,13 @@ public class InteractionObject : MonoBehaviour
     public void Info()
     {
         StartCoroutine(ShowInfo(infoMessage, 3.5f));
+        infoPanel.SetActive(true);
     }
 
     public void Pickup()
     {
         playerScript.inventory.Add(item);
-        Debug.Log("You picked up " + this.gameObject.name);
+        //Debug.Log("You picked up " + this.gameObject.name);
         this.gameObject.SetActive(false);
     }
 
@@ -62,14 +67,14 @@ public class InteractionObject : MonoBehaviour
     {
         if (playerScript.inventory.Contains(item))
         {
+            FindObjectOfType<DialogueManager>().StartDialogue(whenQuestIsDoneDialogue);
             if (willIDisappear)
             {
-                this.gameObject.SetActive(false);
+                if (dialogueManager.dialogue.Count == 0)
+                {
+                    this.gameObject.SetActive(false);
+                }               
             }
-            else
-            {
-                FindObjectOfType<DialogueManager>().StartDialogue(whenQuestIsDoneDialogue);
-            }           
         }
         else
         {
@@ -80,6 +85,7 @@ public class InteractionObject : MonoBehaviour
     IEnumerator ShowInfo(string message, float delay)
     {
         infoText.text = message;
+        
         yield return new WaitForSeconds(delay);
         infoText.text = null;
     }
