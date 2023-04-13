@@ -43,6 +43,7 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
+        Debug.Log("Dialogue count " + dialogue.Count);
         if (dialogue.Count == 0)
         {
             EndDialogue();

@@ -22,9 +22,6 @@ public class InteractionObject : MonoBehaviour
     [Header("What item")]
     public string item;
 
-    [Header("Split dialogue")]
-    public int splitThisDialogue;
-
     [Header("Simple info Message")]
     public string infoMessage;
     private TMP_Text infoText;
@@ -33,6 +30,9 @@ public class InteractionObject : MonoBehaviour
     [TextArea]
     public string[] sentences;
     public string[] whenQuestIsDoneDialogue;
+
+    [Header("Disappear Upon Mission Complete")]
+    public bool willIDisappear;
 
     public PlayerMovement_2D playerScript;
     public void Start()
@@ -62,14 +62,19 @@ public class InteractionObject : MonoBehaviour
     {
         if (playerScript.inventory.Contains(item))
         {
-            FindObjectOfType<DialogueManager>().StartDialogue(whenQuestIsDoneDialogue);
+            if (willIDisappear)
+            {
+                this.gameObject.SetActive(false);
+            }
+            else
+            {
+                FindObjectOfType<DialogueManager>().StartDialogue(whenQuestIsDoneDialogue);
+            }           
         }
         else
         {
             FindObjectOfType<DialogueManager>().StartDialogue(sentences);
         }
-       
-
     }
 
     IEnumerator ShowInfo(string message, float delay)

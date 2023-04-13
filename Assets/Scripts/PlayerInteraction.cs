@@ -7,7 +7,6 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField]
     private GameObject currentInterObj = null;
 
-    [SerializeField]
     public InteractionObject currentInterObjScript = null;
 
 
